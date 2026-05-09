@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --color-brand-blue: #2563EB;
+  --color-brand-hover: #1D4ED8;
+  --color-brand-dark: #0F172A;
+  --color-brand-gray: #64748B;
+  --color-brand-light: #F8FAFC;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 6s ease-in-out 3s infinite;
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes curtainReveal {
+  0% { 
+    clip-path: inset(0 50% 0 50% round 9999px); 
+    opacity: 0; 
+    transform: translateY(-20px); 
+  }
+  100% { 
+    clip-path: inset(0 0 0 0 round 9999px); 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Body gradient */
+body {
+  background: linear-gradient(140deg, #ffffff 0%, #f4f7fb 35%, #e2ebf7 70%, #d0def3 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Utilities */
+.mask-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.curtain-reveal {
+  animation: curtainReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+}
+.reveal-fade.active {
+  opacity: 1;
+}
+
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
