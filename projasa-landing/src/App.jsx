@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import CompanyButtons from './components/CompanyButtons'
 import Marquee from './components/Marquee'
 import ServiceCards from './components/ServiceCards'
 import Mission from './components/Mission'
@@ -14,6 +13,7 @@ import Footer from './components/Footer'
 import AllServices from './components/AllServices'
 import CompanyServices from './components/CompanyServices'
 import WhatsAppFloat from './components/WhatsAppFloat'
+import VideoFloat from './components/VideoFloat'
 import { useScrollReveal } from './hooks/useScrollReveal'
 
 export default function App() {
@@ -45,6 +45,7 @@ export default function App() {
         <CompanyServices companyName={selectedCompany} onBack={goToHome} />
         <Footer />
         <WhatsAppFloat />
+        <VideoFloat />
       </>
     )
   }
@@ -56,6 +57,7 @@ export default function App() {
         <AllServices onBack={goToHome} />
         <Footer />
         <WhatsAppFloat />
+        <VideoFloat />
       </>
     )
   }
@@ -63,8 +65,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <Hero />
-      <CompanyButtons onViewCompany={goToCompany} />
+      <Hero onViewCompany={goToCompany} />
       <ServiceCards />
       <Mission />
       <Services />
@@ -75,6 +76,7 @@ export default function App() {
       <CTA />
       <Footer />
       <WhatsAppFloat />
+      <VideoFloat />
     </>
   )
 }

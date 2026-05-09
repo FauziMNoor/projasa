@@ -42,6 +42,7 @@ export default function Navbar() {
           <ul className="hidden md:flex items-center gap-8 text-[15px] font-medium text-slate-600">
             <li><a href="#" className="hover:text-brand-dark transition-colors">Beranda</a></li>
             <li><a href="#layanan" className="hover:text-brand-dark transition-colors">Layanan</a></li>
+            <li><a href="#testimonials" className="hover:text-brand-dark transition-colors">Testimoni</a></li>
             <li><a href="#proses" className="hover:text-brand-dark transition-colors">Proses</a></li>
             <li><a href="#kontak" className="hover:text-brand-dark transition-colors">Kontak</a></li>
           </ul>
@@ -72,10 +73,11 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="fixed top-24 left-6 right-6 bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-slate-100 p-6 flex flex-col gap-4 md:hidden z-40">
-          <a href="#" className="text-brand-blue font-semibold text-lg py-2 border-b border-slate-50">Beranda</a>
-          <a href="#layanan" className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Layanan</a>
-          <a href="#proses" className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Proses</a>
-          <a href="#kontak" className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Kontak</a>
+          <a href="#" onClick={() => setMobileOpen(false)} className="text-brand-blue font-semibold text-lg py-2 border-b border-slate-50">Beranda</a>
+          <a href="#layanan" onClick={() => setMobileOpen(false)} className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Layanan</a>
+          <a href="#testimonials" onClick={() => setMobileOpen(false)} className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Testimoni</a>
+          <a href="#proses" onClick={() => setMobileOpen(false)} className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Proses</a>
+          <a href="#kontak" onClick={() => setMobileOpen(false)} className="text-slate-600 hover:text-brand-blue font-medium text-lg py-2 border-b border-slate-50">Kontak</a>
           <a href="https://wa.me/628125532111" target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center justify-center gap-2 bg-brand-blue text-white w-full py-4 rounded-full text-base font-semibold">
             Hubungi Kami
           </a>

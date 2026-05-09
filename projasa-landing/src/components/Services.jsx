@@ -3,7 +3,7 @@ const services = [
     num: '01',
     title: 'Konsultan Legal & Perizinan',
     description: 'Pendirian PT/CV, pengurusan NIB, izin usaha, KBLI, PKP, dan seluruh dokumen legalitas perusahaan Anda. Kami memastikan bisnis Anda berjalan sesuai regulasi yang berlaku.',
-    image: 'https://webuild-dev.s3.eu-north-1.amazonaws.com/default/templates/web-agency/process/process1.webp',
+    image: '/image/layanan_kami/konsultan_legal.jpg',
     bg: 'bg-white',
     numColor: 'text-slate-100',
     sticky: 'top-6 md:top-24',
@@ -13,7 +13,7 @@ const services = [
     num: '02',
     title: 'Konsultan Teknik & Lingkungan',
     description: 'Penyusunan dokumen AMDAL, UKL-UPL, SPPL, serta konsultasi teknik untuk proyek konstruksi dan infrastruktur. Solusi lengkap untuk kepatuhan lingkungan.',
-    image: 'https://webuild-dev.s3.eu-north-1.amazonaws.com/default/templates/web-agency/process/process2.webp',
+    image: '/image/layanan_kami/konsultan_teknik.jpg',
     bg: 'bg-[#F8FAFC]',
     numColor: 'text-blue-100/50',
     sticky: 'top-10 md:top-32',
@@ -33,7 +33,7 @@ const services = [
     num: '04',
     title: 'Pengurusan Izin Khusus',
     description: 'Izin lingkungan, izin konstruksi (SLF/PBG), izin operasional, dan perizinan khusus lainnya. Kami memiliki jaringan luas untuk mempercepat proses perizinan Anda.',
-    image: 'https://webuild-dev.s3.eu-north-1.amazonaws.com/default/templates/web-agency/process/process4.webp',
+    image: '/image/layanan_kami/izin_khusus.jpg',
     bg: 'bg-[#F8FAFC]',
     numColor: 'text-blue-100/50',
     sticky: 'top-18 md:top-48',
@@ -43,7 +43,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="layanan" className="w-full max-w-7xl mx-auto px-6 py-20 relative z-10">
+    <section id="layanan-kami" className="w-full max-w-7xl mx-auto px-6 py-20 relative z-10">
       {/* Header */}
       <div className="reveal flex flex-col items-center text-center mb-16">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm mb-6">

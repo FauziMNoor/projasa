@@ -1,4 +1,28 @@
-export default function Hero() {
+const companies = [
+  {
+    name: 'PT Projasa Legal Insani',
+    shortName: 'Legal Insani',
+    description: 'Perizinan & Legalitas',
+    image: '/image/pt/legal_insani.png',
+    color: 'border-blue-200 bg-blue-50/50',
+  },
+  {
+    name: 'PT Projasa Nusantara Jaya',
+    shortName: 'Nusantara Jaya',
+    description: 'Konstruksi & Lingkungan',
+    image: '/image/pt/nusantara_jaya.png',
+    color: 'border-emerald-200 bg-emerald-50/50',
+  },
+  {
+    name: 'PT Projasa Teknika Studio',
+    shortName: 'Teknika Studio',
+    description: 'Outsourcing & SDM',
+    image: '/image/pt/teknika_studio.png',
+    color: 'border-violet-200 bg-violet-50/50',
+  },
+]
+
+export default function Hero({ onViewCompany }) {
   return (
     <div className="relative w-full bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('https://i.pinimg.com/736x/27/c5/d1/27c5d192d0a032a0d43fa043e748a8a1.jpg')" }}>
       
@@ -33,14 +57,32 @@ export default function Hero() {
             </a>
           </div>
           
-          <div className="flex items-center gap-5">
-            <div className="flex -space-x-4">
-              <img src="https://i.pravatar.cc/100?img=1" alt="User" className="w-12 h-12 rounded-full border-2 border-white shadow-md object-cover" />
-              <img src="https://i.pravatar.cc/100?img=2" alt="User" className="w-12 h-12 rounded-full border-2 border-white shadow-md object-cover" />
-              <img src="https://i.pravatar.cc/100?img=3" alt="User" className="w-12 h-12 rounded-full border-2 border-white shadow-md object-cover" />
-              <div className="w-12 h-12 rounded-full border-2 border-white shadow-md bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">+1k</div>
-            </div>
-            <p className="text-sm font-semibold text-slate-600 max-w-[200px] leading-snug">Dipercaya oleh startup & perusahaan di seluruh Indonesia</p>
+          {/* Mini Cards 3 PT */}
+          <div className="flex flex-wrap gap-2">
+            {companies.map((company) => (
+              <button
+                key={company.name}
+                onClick={() => onViewCompany(company.name)}
+                className={`group relative flex items-center gap-2.5 px-3 py-2.5 rounded-xl border ${company.color} backdrop-blur-sm hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden`}
+              >
+                <img
+                  src={company.image}
+                  alt={company.shortName}
+                  className="w-9 h-9 rounded-lg object-cover border border-white/80 shadow-sm"
+                />
+                <div className="text-left">
+                  <p className="text-xs font-bold text-brand-dark leading-tight group-hover:text-brand-blue transition-colors">PT {company.shortName}</p>
+                  <p className="text-[10px] text-slate-500 font-medium">{company.description}</p>
+                </div>
+                {/* Hover CTA overlay */}
+                <span className="absolute inset-0 flex items-center justify-center bg-brand-blue/90 backdrop-blur-sm rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-[11px] font-bold text-white flex items-center gap-1">
+                    Lihat Layanan
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </span>
+                </span>
+              </button>
+            ))}
           </div>
         </div>
 

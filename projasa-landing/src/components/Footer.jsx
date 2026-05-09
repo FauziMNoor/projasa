@@ -8,7 +8,7 @@ export default function Footer() {
           <img
             src="/logo.png"
             alt="PROJASA"
-            className="h-20 md:h-28 lg:h-36 w-auto"
+            className="h-28 md:h-36 lg:h-44 w-auto"
             style={{ filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.5)) drop-shadow(0 1px 3px rgba(0,0,0,0.3))' }}
           />
         </div>
@@ -40,13 +40,26 @@ export default function Footer() {
                 0812-5532-111
               </a>
             </div>
+
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-3 pt-2">
+              <a href="https://www.instagram.com/projasa.co.id/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </a>
+              <a href="https://www.tiktok.com/@projasa.co.id" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+              </a>
+              <a href="https://web.facebook.com/projasa.co.id" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            </div>
           </div>
 
           {/* Right - Maps Card */}
           <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-white/80 bg-white">
             <iframe
               title="Lokasi PROJASA"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1000!2d115.20007455403108!3d-8.682491873604029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwNDAnNTcuMCJTIDExNcKwMTInMDAuMyJF!5e0!3m2!1sid!2sid!4v1700000000000"
+              src="https://www.google.com/maps?q=PT+Projasa+Legal+Insani+Jl.+Pulau+Batanta+No.18+B+Denpasar+Bali&output=embed"
               width="100%"
               height="250"
               style={{ border: 0 }}
@@ -61,21 +74,10 @@ export default function Footer() {
         <div className="w-full h-px bg-slate-100 mb-8"></div>
         
         {/* Bottom Bar */}
-        <div className="w-full flex flex-col md:flex-row justify-between items-center gap-6 px-2 md:px-4">
+        <div className="w-full flex justify-center items-center px-2 md:px-4">
           <p className="text-[13px] font-medium text-[#8ea5d9]">
-            &copy; 2026 PROJASA. All rights reserved.
+            &copy; 2026 Projasa Group. All rights reserved.
           </p>
-          <div className="flex items-center gap-3">
-            <a href="#" aria-label="Twitter" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-            </a>
-            <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a href="#" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-          </div>
         </div>
       </div>
     </footer>
