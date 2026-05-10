@@ -29,14 +29,38 @@ function formatMessage(text) {
   return elements;
 }
 
-// Handle inline: **bold** and remaining * cleanup
+// Handle inline: clean asterisks and make WhatsApp number clickable
 function formatInline(text) {
   if (!text) return text;
   
-  // Clean stray asterisks that aren't proper bold
-  let cleaned = text.replace(/\*{1,2}([^*]+)\*{1,2}/g, (match, inner) => {
-    return inner; // just remove the asterisks, show plain text
-  });
+  // Clean stray asterisks
+  let cleaned = text.replace(/\*{1,2}([^*]+)\*{1,2}/g, (match, inner) => inner);
+  
+  // Remove any wa.me links and replace with just the number
+  cleaned = cleaned.replace(/wa\.me\/628125532111/g, '0812-5532-111');
+  cleaned = cleaned.replace(/https?:\/\/wa\.me\/\d+/g, '0812-5532-111');
+  
+  // Make WhatsApp number clickable
+  const waMatch = cleaned.match(/(0812[-\s]?5532[-\s]?111)/);
+  if (waMatch) {
+    const idx = cleaned.indexOf(waMatch[0]);
+    const before = cleaned.substring(0, idx);
+    const after = cleaned.substring(idx + waMatch[0].length);
+    return (
+      <>
+        {before}
+        <a 
+          href="https://wa.me/628125532111" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-green-600 underline font-medium"
+        >
+          0812-5532-111 💬
+        </a>
+        {after}
+      </>
+    );
+  }
   
   return cleaned;
 }
