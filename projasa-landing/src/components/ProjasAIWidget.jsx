@@ -239,8 +239,8 @@ export default function ProjasAIWidget() {
       {/* Floating Robot Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed z-50 bottom-24 right-6 w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center overflow-hidden ${
-          isOpen ? 'bg-gray-700' : 'bg-white border-2 border-blue-500'
+        className={`fixed z-50 bottom-24 right-4 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 transition-all duration-300 flex items-center justify-center ${
+          isOpen ? 'bg-gray-700 rounded-full shadow-lg' : ''
         }`}
         aria-label={isOpen ? 'Tutup chat' : 'Buka chat'}
       >
@@ -252,7 +252,7 @@ export default function ProjasAIWidget() {
           <img 
             src="/image/robot.png" 
             alt="Chat dengan Projas AI" 
-            className="w-11 h-11 object-contain hover:scale-110 transition-transform"
+            className="w-14 h-14 sm:w-16 sm:h-16 object-contain hover:scale-110 transition-transform drop-shadow-lg"
           />
         )}
       </button>
