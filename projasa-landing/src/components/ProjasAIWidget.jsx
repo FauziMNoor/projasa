@@ -13,7 +13,25 @@ export default function ProjasAIWidget() {
   const [messages, setMessages] = useState([INITIAL_MESSAGE]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Show popup bubble after 56 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) {
+        setShowBubble(true);
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Hide bubble when chat is opened
+  useEffect(() => {
+    if (isOpen) {
+      setShowBubble(false);
+    }
+  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -187,7 +205,7 @@ export default function ProjasAIWidget() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed z-50 bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group ${
+        className={`fixed z-50 bottom-24 right-6 w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group ${
           isOpen ? 'rotate-90' : ''
         }`}
         aria-label={isOpen ? 'Tutup chat' : 'Buka chat'}
@@ -201,9 +219,28 @@ export default function ProjasAIWidget() {
         )}
       </button>
 
+      {/* Popup Bubble - appears after 56 seconds */}
+      {showBubble && !isOpen && (
+        <div className="fixed z-50 bottom-[7.5rem] right-[5.5rem] animate-fade-in">
+          <div className="relative bg-white border border-gray-200 rounded-xl shadow-lg px-4 py-3 max-w-[220px]">
+            <button
+              onClick={() => setShowBubble(false)}
+              className="absolute -top-2 -right-2 w-5 h-5 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-xs transition-colors"
+            >
+              ✕
+            </button>
+            <p className="text-sm text-gray-800 font-medium leading-snug">
+              💬 Punya pertanyaan soal izin usaha? Tanya saya — jawaban instan dalam hitungan detik!
+            </p>
+            {/* Arrow pointing to button */}
+            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-gray-200 transform rotate-45"></div>
+          </div>
+        </div>
+      )}
+
       {/* Tooltip */}
-      {!isOpen && (
-        <div className="fixed z-40 bottom-24 right-6 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+      {!isOpen && !showBubble && (
+        <div className="fixed z-40 bottom-[10.5rem] right-6 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Chat dengan Projas AI
         </div>
       )}
