@@ -204,7 +204,9 @@ export default function ProjasAIWidget() {
           isOpen 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-4 pointer-events-none'
-        } bottom-40 right-6 w-[360px] max-w-[calc(100vw-48px)] h-[480px] max-h-[calc(100vh-200px)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
+        } sm:bottom-40 sm:right-6 sm:w-[360px] sm:h-[480px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl
+          bottom-0 right-0 w-full h-[100dvh] max-h-[100dvh] rounded-none
+          max-w-[calc(100vw)] sm:max-w-[360px] bg-white shadow-2xl flex flex-col overflow-hidden`}
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white flex items-center justify-between">
@@ -290,7 +292,7 @@ export default function ProjasAIWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ketik pertanyaan Anda..."
-              className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="flex-1 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-[16px] sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               disabled={isLoading}
               maxLength={500}
             />
@@ -305,6 +307,7 @@ export default function ProjasAIWidget() {
             </button>
           </div>
         </form>
+        <p className="text-center text-[10px] text-gray-400/70 py-1">Projas is AI and can make mistakes</p>
       </div>
 
       {/* Floating Robot Button */}

@@ -28,7 +28,7 @@ export default function VideoFloat() {
   }
 
   return (
-    <div className="fixed bottom-6 left-4 sm:left-6 z-50">
+    <div className="fixed bottom-6 left-4 sm:left-6 z-50 hidden sm:block">
       {/* Expanded Video Player */}
       <div
         className={`transition-all duration-500 ease-in-out origin-bottom-left ${
