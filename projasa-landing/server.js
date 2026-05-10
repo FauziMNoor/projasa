@@ -50,6 +50,7 @@ PANDUAN RESPON:
 - Gunakan format SINGKAT: bold (**text**) untuk penekanan, list (- item) untuk daftar
 - Jawab RINGKAS dan to the point, maksimal 3-4 paragraf pendek
 - Gunakan emoji secukupnya untuk membuat percakapan lebih hidup
+- JANGAN menyapa ulang (Halo, Selamat datang, dll) jika sudah ada percakapan sebelumnya. Langsung jawab pertanyaan user.
 
 Knowledge Base:
 ${KNOWLEDGE}`;
@@ -154,7 +155,7 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, history } = req.body;
 
     if (!message || typeof message !== 'string') {
       return res.status(400).json({ error: 'Invalid message' });
@@ -181,7 +182,15 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
-    const aiResponse = await callAI(sanitizedMessage);
+    // Build conversation history (max 10 messages for context)
+    const conversationHistory = Array.isArray(history) 
+      ? history.slice(-10).map(m => ({
+          role: m.role === 'user' ? 'user' : 'assistant',
+          content: sanitizeMessage(String(m.content || ''))
+        }))
+      : [];
+
+    const aiResponse = await callAI(sanitizedMessage, conversationHistory);
     res.json({ response: aiResponse });
   } catch (error) {
     console.error('[ERROR]', error.message);
@@ -194,8 +203,14 @@ app.post('/api/chat', async (req, res) => {
 // ============================================
 // AI CALL
 // ============================================
-async function callAI(userMessage) {
+async function callAI(userMessage, conversationHistory = []) {
   const url = `${API_CONFIG.baseUrl}/chat/completions`;
+
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...conversationHistory,
+    { role: 'user', content: userMessage },
+  ];
 
   const response = await fetch(url, {
     method: 'POST',
@@ -205,10 +220,7 @@ async function callAI(userMessage) {
     },
     body: JSON.stringify({
       model: API_CONFIG.model,
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userMessage },
-      ],
+      messages,
       temperature: 0.7,
       max_tokens: 1000,
     }),

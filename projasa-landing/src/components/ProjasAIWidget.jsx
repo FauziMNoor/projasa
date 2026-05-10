@@ -195,13 +195,21 @@ export default function ProjasAIWidget() {
     setIsLoading(true);
 
     try {
+      // Build conversation history (last 10 messages for context)
+      const history = messages
+        .filter(m => m.id !== 1) // exclude initial greeting
+        .slice(-10)
+        .map(m => ({
+          role: m.type === 'user' ? 'user' : 'assistant',
+          content: m.text
+        }));
+
       const response = await fetch(`${API_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           message: input.trim(),
-          sessionId: sessionStorage.getItem('projas_session_id') || 
-            (sessionStorage.setItem('projas_session_id', crypto.randomUUID()), sessionStorage.getItem('projas_session_id'))
+          history
         })
       });
 
