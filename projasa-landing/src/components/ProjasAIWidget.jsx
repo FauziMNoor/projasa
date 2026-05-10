@@ -2,73 +2,23 @@ import { useState, useRef, useEffect } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-// Simple markdown renderer for chat messages
+// Simple message formatter for chat messages
 function formatMessage(text) {
   if (!text) return null;
   
   const lines = text.split('\n');
   const elements = [];
-  let listItems = [];
   
-  const flushList = () => {
-    if (listItems.length > 0) {
-      elements.push(
-        <ul key={`ul-${elements.length}`} className="list-none space-y-1 my-1">
-          {listItems.map((item, i) => (
-            <li key={i} className="flex gap-1.5 items-start">
-              <span className="shrink-0">{item.bullet}</span>
-              <span>{formatInline(item.text)}</span>
-            </li>
-          ))}
-        </ul>
-      );
-      listItems = [];
-    }
-  };
-
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     
-    // Horizontal rule (---)
-    if (/^-{3,}$/.test(line.trim())) {
-      flushList();
-      elements.push(<hr key={`hr-${i}`} className="my-2 border-gray-200" />);
-      continue;
-    }
-    
-    // List items (- text or • text or emoji text)
-    const listMatch = line.match(/^\s*[-•]\s+(.+)/);
-    if (listMatch) {
-      const emojiMatch = listMatch[1].match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)/u);
-      if (emojiMatch) {
-        listItems.push({ bullet: emojiMatch[1], text: emojiMatch[2] });
-      } else {
-        listItems.push({ bullet: '•', text: listMatch[1] });
-      }
-      continue;
-    }
-    
-    // Flush any pending list
-    flushList();
-    
-    // Empty line
+    // Empty line = spacing
     if (line.trim() === '') {
       elements.push(<div key={`br-${i}`} className="h-1.5" />);
       continue;
     }
     
-    // Heading (### or ##)
-    const headingMatch = line.match(/^#{1,3}\s+(.+)/);
-    if (headingMatch) {
-      elements.push(
-        <p key={`h-${i}`} className="font-semibold mt-1">
-          {formatInline(headingMatch[1])}
-        </p>
-      );
-      continue;
-    }
-    
-    // Normal text
+    // Normal text line
     elements.push(
       <p key={`p-${i}`} className="leading-relaxed">
         {formatInline(line)}
@@ -76,35 +26,19 @@ function formatMessage(text) {
     );
   }
   
-  flushList();
   return elements;
 }
 
-// Handle inline formatting: **bold**, *italic*, `code`
+// Handle inline: **bold** and remaining * cleanup
 function formatInline(text) {
   if (!text) return text;
   
-  const parts = [];
-  let remaining = text;
-  let key = 0;
+  // Clean stray asterisks that aren't proper bold
+  let cleaned = text.replace(/\*{1,2}([^*]+)\*{1,2}/g, (match, inner) => {
+    return inner; // just remove the asterisks, show plain text
+  });
   
-  while (remaining.length > 0) {
-    // Bold **text**
-    const boldMatch = remaining.match(/\*\*(.+?)\*\*/);
-    if (boldMatch) {
-      const idx = remaining.indexOf(boldMatch[0]);
-      if (idx > 0) parts.push(remaining.substring(0, idx));
-      parts.push(<strong key={key++}>{boldMatch[1]}</strong>);
-      remaining = remaining.substring(idx + boldMatch[0].length);
-      continue;
-    }
-    
-    // No more formatting found
-    parts.push(remaining);
-    break;
-  }
-  
-  return parts.length === 1 ? parts[0] : parts;
+  return cleaned;
 }
 
 const INITIAL_MESSAGE = {

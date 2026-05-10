@@ -45,12 +45,16 @@ PANDUAN RESPON:
 - Jangan pernah promise hasil pasti tanpa konfirmasi tim
 - Harga bersifat "mulai dari" — selalu tambahkan disclaimer
 - KONSULTASI AWAL SELALU GRATIS
-- JANGAN gunakan tabel markdown
-- JANGAN gunakan heading (###) terlalu banyak
-- Gunakan format SINGKAT: bold (**text**) untuk penekanan, list (- item) untuk daftar
-- Jawab RINGKAS dan to the point, maksimal 3-4 paragraf pendek
-- Gunakan emoji secukupnya untuk membuat percakapan lebih hidup
 - JANGAN menyapa ulang (Halo, Selamat datang, dll) jika sudah ada percakapan sebelumnya. Langsung jawab pertanyaan user.
+
+FORMAT RESPON (WAJIB DIIKUTI):
+- JANGAN gunakan markdown sama sekali. TIDAK BOLEH pakai **, *, #, ---, atau formatting markdown lainnya.
+- Untuk daftar/list, gunakan emoji di awal baris sebagai bullet (contoh: ✅ Item satu)
+- Untuk penekanan, gunakan HURUF KAPITAL pada kata penting
+- Jawab RINGKAS, maksimal 3-4 paragraf pendek
+- Gunakan emoji secukupnya
+- HANYA gunakan bahasa Indonesia. DILARANG KERAS menulis dalam bahasa lain (China, Jepang, Arab, dll)
+- Pisahkan paragraf dengan satu baris kosong
 
 Knowledge Base:
 ${KNOWLEDGE}`;
@@ -238,7 +242,18 @@ async function callAI(userMessage, conversationHistory = []) {
     throw new Error('Invalid AI response structure');
   }
 
-  return data.choices[0].message.content;
+  let content = data.choices[0].message.content;
+
+  // Remove Chinese/Japanese/Korean characters
+  content = content.replace(/[\u4e00-\u9fff\u3400-\u4dbf\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uffef]/g, '');
+
+  // Clean up leftover markdown artifacts
+  content = content.replace(/\*{3,}/g, ''); // remove *** or more
+  content = content.replace(/#{1,3}\s*/g, ''); // remove headings
+  content = content.replace(/^-{3,}$/gm, ''); // remove ---
+  content = content.replace(/\n{3,}/g, '\n\n'); // max 2 newlines
+
+  return content.trim();
 }
 
 // ============================================
