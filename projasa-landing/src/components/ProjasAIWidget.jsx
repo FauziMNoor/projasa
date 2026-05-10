@@ -8,15 +8,25 @@ const INITIAL_MESSAGE = {
   text: "Halo! 👋 Saya Projas AI Asisten. Selamat datang di Projasa! Ada yang bisa saya bantu hari ini mengenai legalitas dan perizinan bisnis? 😊"
 };
 
+const TYPING_MESSAGES = [
+  "Tanya yuk, saya jawab secepat kilat! ⚡",
+  "Izin usaha ribet? Saya bantu urus semuanya 📋",
+  "Konsultasi gratis, langsung dijawab! 💬",
+  "Mau buka usaha? Tanya dulu izinnya di sini 🏢",
+  "Bingung soal legalitas? Ketik aja, saya siap bantu ✅",
+];
+
 export default function ProjasAIWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([INITIAL_MESSAGE]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
+  const [typingText, setTypingText] = useState('');
+  const [messageIndex, setMessageIndex] = useState(0);
   const messagesEndRef = useRef(null);
 
-  // Show popup bubble after 56 seconds
+  // Show popup bubble after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!isOpen) {
@@ -32,6 +42,30 @@ export default function ProjasAIWidget() {
       setShowBubble(false);
     }
   }, [isOpen]);
+
+  // Typing effect for bubble messages
+  useEffect(() => {
+    if (!showBubble || isOpen) return;
+
+    const currentMessage = TYPING_MESSAGES[messageIndex];
+    let charIndex = 0;
+    setTypingText('');
+
+    const typingInterval = setInterval(() => {
+      if (charIndex <= currentMessage.length) {
+        setTypingText(currentMessage.slice(0, charIndex));
+        charIndex++;
+      } else {
+        clearInterval(typingInterval);
+        // Wait 3 seconds then move to next message
+        setTimeout(() => {
+          setMessageIndex((prev) => (prev + 1) % TYPING_MESSAGES.length);
+        }, 3000);
+      }
+    }, 50);
+
+    return () => clearInterval(typingInterval);
+  }, [showBubble, isOpen, messageIndex]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -99,13 +133,13 @@ export default function ProjasAIWidget() {
           isOpen 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-4 pointer-events-none'
-        } bottom-24 right-6 w-[360px] max-w-[calc(100vw-48px)] h-[500px] max-h-[calc(100vh-180px)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
+        } bottom-40 right-6 w-[360px] max-w-[calc(100vw-48px)] h-[480px] max-h-[calc(100vh-200px)] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <span className="text-xl">🤖</span>
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+              <img src="/image/robot.png" alt="Projas AI" className="w-8 h-8 object-contain" />
             </div>
             <div>
               <h3 className="font-bold text-sm">Projas AI Asisten</h3>
@@ -202,46 +236,44 @@ export default function ProjasAIWidget() {
         </form>
       </div>
 
-      {/* Floating Button */}
+      {/* Floating Robot Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed z-50 bottom-24 right-6 w-14 h-14 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group ${
-          isOpen ? 'rotate-90' : ''
+        className={`fixed z-50 bottom-24 right-6 w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center overflow-hidden ${
+          isOpen ? 'bg-gray-700' : 'bg-white border-2 border-blue-500'
         }`}
         aria-label={isOpen ? 'Tutup chat' : 'Buka chat'}
       >
         {isOpen ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <span className="text-2xl group-hover:scale-110 transition-transform">🤖</span>
+          <img 
+            src="/image/robot.png" 
+            alt="Chat dengan Projas AI" 
+            className="w-11 h-11 object-contain hover:scale-110 transition-transform"
+          />
         )}
       </button>
 
-      {/* Popup Bubble - appears after 56 seconds */}
+      {/* Typing Bubble - appears after 5 seconds with typing effect */}
       {showBubble && !isOpen && (
-        <div className="fixed z-50 bottom-[7.5rem] right-[5.5rem] animate-fade-in">
-          <div className="relative bg-white border border-gray-200 rounded-xl shadow-lg px-4 py-3 max-w-[220px]">
+        <div className="fixed z-50 bottom-[9.5rem] right-[5rem] animate-fade-in">
+          <div className="relative bg-white border border-blue-200 rounded-xl shadow-lg px-4 py-3 max-w-[230px]">
             <button
               onClick={() => setShowBubble(false)}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-xs transition-colors"
+              className="absolute -top-2 -right-2 w-5 h-5 bg-gray-300 hover:bg-gray-400 rounded-full flex items-center justify-center text-gray-700 text-xs font-bold transition-colors"
             >
               ✕
             </button>
-            <p className="text-sm text-gray-800 font-medium leading-snug">
-              💬 Punya pertanyaan soal izin usaha? Tanya saya — jawaban instan dalam hitungan detik!
+            <p className="text-sm text-gray-800 font-medium leading-snug min-h-[2.5rem]">
+              {typingText}
+              <span className="inline-block w-0.5 h-4 bg-blue-600 ml-0.5 animate-pulse align-middle"></span>
             </p>
-            {/* Arrow pointing to button */}
-            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-gray-200 transform rotate-45"></div>
+            {/* Arrow pointing to robot button */}
+            <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-b border-r border-blue-200 transform rotate-45"></div>
           </div>
-        </div>
-      )}
-
-      {/* Tooltip */}
-      {!isOpen && !showBubble && (
-        <div className="fixed z-40 bottom-[10.5rem] right-6 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Chat dengan Projas AI
         </div>
       )}
     </>
