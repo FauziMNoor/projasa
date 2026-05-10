@@ -15,17 +15,13 @@ function useTypingEffect(texts, typingSpeed = 80, deletingSpeed = 40, pauseDurat
 
   useEffect(() => {
     const currentFullText = texts[textIndex]
-
     const timeout = setTimeout(() => {
       if (!isDeleting) {
-        // Typing
         setDisplayText(currentFullText.slice(0, displayText.length + 1))
         if (displayText.length + 1 === currentFullText.length) {
-          // Pause before deleting
           setTimeout(() => setIsDeleting(true), pauseDuration)
         }
       } else {
-        // Deleting
         setDisplayText(currentFullText.slice(0, displayText.length - 1))
         if (displayText.length - 1 === 0) {
           setIsDeleting(false)
@@ -33,93 +29,187 @@ function useTypingEffect(texts, typingSpeed = 80, deletingSpeed = 40, pauseDurat
         }
       }
     }, isDeleting ? deletingSpeed : typingSpeed)
-
     return () => clearTimeout(timeout)
   }, [displayText, isDeleting, textIndex, texts, typingSpeed, deletingSpeed, pauseDuration])
 
   return displayText
 }
 
-export default function Hero({ onViewServices }) {
-  const typedText = useTypingEffect(typingTexts)
+const brandLogos = [
+  'armour.png', 'azarine.png', 'blibli.png', 'bocahindo.png', 'canon.png',
+  'elemis.png', 'ellips.png', 'fujifilm.png', 'glints.png', 'grab.png',
+  'hokben.png', 'idemitsu.png', 'itb.png', 'lotte.png', 'lps.png',
+  'mondemart.png', 'nars.png', 'nissin.png', 'pegadaian.png', 'polytron.png',
+  'raksa.png', 'ricola.png', 'rohto.png', 'sekai.png', 'senka.png',
+  'shopee.png', 'toyota.png', 'ugm.png', 'usm.png',
+]
+
+function MarqueeBrands() {
+  const [paused, setPaused] = useState(false)
 
   return (
-    <div className="relative w-full bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('https://i.pinimg.com/736x/27/c5/d1/27c5d192d0a032a0d43fa043e748a8a1.jpg')" }}>
-      
-      {/* Bottom blur transition */}
-      <div className="absolute bottom-0 left-0 w-full h-32 backdrop-blur-md bg-[#f4f7fb]/20 pointer-events-none z-0" style={{ WebkitMaskImage: 'linear-gradient(to top, black 5%, transparent 100%)', maskImage: 'linear-gradient(to top, black 5%, transparent 100%)' }}></div>
-
-      <main className="w-full max-w-7xl mx-auto px-6 pt-32 lg:pt-40 pb-12 lg:pb-20 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
-        {/* Left Column */}
-        <div className="lg:col-span-6 flex flex-col items-start z-20">
-          {/* Typing Effect */}
-          <div className="mb-6">
-            <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-dark drop-shadow-sm">
-              {typedText}
-              <span className="inline-block w-[3px] h-[1em] bg-brand-blue ml-1 animate-pulse align-middle"></span>
-            </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
-            <span className="block text-brand-dark mb-2 sm:mb-3">The Most Trusted</span>
-            <span className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
-              <span className="text-brand-blue">Legal Company</span>
-              <span className="text-brand-dark">in Bali.</span>
-            </span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-lg mb-10 font-medium">
-            Urus izin usaha, legalitas, dan dokumen teknis tanpa ribet. Cukup konsultasi, kami yang handle semuanya.
-          </p>
-          
-          <div className="flex flex-wrap items-center gap-4">
-            <a href="https://wa.me/628125532111" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-brand-blue text-white px-7 py-4 rounded-full text-base font-bold hover:bg-brand-hover hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 transform hover:-translate-y-1">
-              Konsultasi Gratis
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="bg-white/20 rounded-full p-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-            <button onClick={onViewServices} className="flex items-center gap-2 glass text-slate-800 px-7 py-4 rounded-full text-base font-bold hover:bg-white transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-              Lihat Layanan
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-blue"><path d="M2 12h20"/><path d="m14 5 7 7-7 7"/></svg>
-            </button>
-          </div>
+    <div
+      className={`flex overflow-hidden transition-all duration-500 cursor-default ${paused ? 'grayscale-0 opacity-100' : 'grayscale opacity-60'}`}
+      style={{
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+        maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+      }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {[0, 1].map((set) => (
+        <div
+          key={set}
+          aria-hidden={set === 1}
+          className="flex shrink-0 gap-10 md:gap-16 pr-10 md:pr-16 items-center"
+          style={{ animation: 'marquee 60s linear infinite', animationPlayState: paused ? 'paused' : 'running' }}
+        >
+          {brandLogos.map((logo, i) => (
+            <div key={i} className="shrink-0">
+              <img
+                src={`/image/logobrand_project/${logo}`}
+                alt="brand"
+                className="h-9 md:h-11 w-auto object-contain"
+              />
+            </div>
+          ))}
         </div>
-
-        {/* Right Column (Visual) */}
-        <div className="lg:col-span-6 relative w-full flex justify-center lg:justify-end mt-10 lg:mt-0">
-          <div className="relative w-full max-w-[500px]">
-            
-            {/* Main Visual */}
-            <div className="w-full aspect-[4/4.5] rounded-[2.5rem] bg-slate-100 shadow-2xl relative z-10 overflow-hidden border-8 border-white group">
-              <img src="/image/hero.png" alt="PROJASA Digital" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none"></div>
-            </div>
-
-            {/* Floating Badges */}
-            <div className="absolute -left-4 md:-left-12 top-10 glass p-5 rounded-2xl shadow-xl z-20 animate-float">
-              <div className="flex items-center gap-3 mb-1">
-                <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </div>
-                <h3 className="text-3xl font-extrabold text-brand-dark">150+</h3>
-              </div>
-              <p className="text-sm font-semibold text-slate-500 ml-11">Proyek Selesai</p>
-            </div>
-            
-            <div className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 glass p-5 rounded-2xl shadow-xl z-20 animate-float-delayed">
-              <h3 className="text-3xl font-extrabold text-brand-dark mb-1 flex items-center gap-1">
-                98% 
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-yellow-400"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              </h3>
-              <p className="text-sm font-semibold text-slate-500">Kepuasan Klien</p>
-            </div>
-            
-            <div className="absolute -left-2 md:-left-8 bottom-10 glass p-5 rounded-2xl shadow-xl z-20 animate-float">
-              <h3 className="text-3xl font-extrabold text-brand-dark mb-1">12+</h3>
-              <p className="text-sm font-semibold text-slate-500">Tahun Pengalaman</p>
-            </div>
-          </div>
-        </div>
-      </main>
+      ))}
     </div>
+  )
+}
+
+export default function Hero({ onViewServices }) {
+  const typedText = useTypingEffect(typingTexts)
+  const [consultText, setConsultText] = useState('')
+
+  return (
+    <section className="relative pt-36 pb-0 overflow-hidden bg-gradient-to-b from-[#e1f7f5] via-[#ecf4f8] to-[#f4f0fd]">
+      {/* Subtle background radial */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/30 via-transparent to-transparent pointer-events-none"></div>
+
+      {/* Vertical lines texture */}
+      <div 
+        className="absolute inset-x-0 bottom-0 h-[75%] pointer-events-none opacity-50"
+        style={{
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 40%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 40%, transparent 100%)'
+        }}
+      >
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-teal-400 via-purple-500 to-orange-400"
+          style={{
+            WebkitMaskImage: 'repeating-linear-gradient(to right, black 0px, black 1px, transparent 1px, transparent 8px)',
+            maskImage: 'repeating-linear-gradient(to right, black 0px, black 1px, transparent 1px, transparent 8px)'
+          }}
+        ></div>
+      </div>
+
+      <div className="relative z-10 px-6 max-w-5xl mx-auto flex flex-col items-center text-center pt-8">
+        
+        {/* Typing effect */}
+        <div className="mb-4">
+          <span className="text-lg md:text-xl font-semibold text-slate-700">
+            {typedText}
+            <span className="inline-block w-[2px] h-[1em] bg-brand-purple ml-1 animate-pulse align-middle"></span>
+          </span>
+        </div>
+
+        <h1 className="text-[3rem] md:text-[5.5rem] font-black text-slate-900 tracking-tighter mb-6 leading-[1.05]">
+          Solusi Legalitas <br className="hidden md:block"/> Bisnis Terpercaya
+        </h1>
+        
+        <p className="text-lg md:text-xl text-slate-800 font-medium max-w-2xl mb-12 leading-relaxed">
+          Urus izin usaha, legalitas, dan dokumen teknis tanpa ribet. Cukup konsultasi, kami yang handle semuanya.
+        </p>
+
+        {/* Hero Interactive Input */}
+        <div className="w-full max-w-2xl bg-white/50 backdrop-blur-md p-1.5 rounded-full border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex flex-col sm:flex-row gap-0 sm:items-center relative z-20">
+          <input 
+            type="text" 
+            placeholder="Ketik kebutuhan Anda..."
+            className="flex-1 bg-white px-6 py-4 rounded-t-2xl sm:rounded-l-full sm:rounded-r-none border-none text-slate-900 placeholder:text-slate-400 focus:outline-none text-base"
+            value={consultText}
+            onChange={(e) => setConsultText(e.target.value)}
+          />
+          <a 
+            href={`https://wa.me/628125532111?text=${encodeURIComponent(consultText || 'Halo, saya ingin konsultasi mengenai layanan Projasa')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#c892ff] hover:bg-[#b87df8] text-white px-8 py-4 rounded-b-2xl sm:rounded-full text-base font-bold transition-all whitespace-nowrap w-full sm:w-auto text-center"
+          >
+            Konsultasi Gratis
+          </a>
+        </div>
+
+
+
+        {/* Hero Image — Split Layout: Gambar + Stats */}
+        <div className="mt-16 w-full max-w-5xl relative z-10 px-4 md:px-0">
+          <div className="bg-white/40 backdrop-blur-xl p-3 rounded-[32px] border border-white/60 shadow-2xl">
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row h-[450px]">
+              
+              {/* Kiri: Stats & Info */}
+              <div className="w-full md:w-[320px] p-8 flex flex-col justify-center gap-6 bg-white">
+                <div>
+                  <h3 className="text-[22px] font-black text-slate-900 tracking-tight mb-2">Kenapa Projasa?</h3>
+                  <p className="text-[13px] text-slate-500 leading-relaxed">Solusi legalitas bisnis terlengkap di Bali dengan pengalaman lebih dari 10 tahun.</p>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div>
+                      <p className="text-[20px] font-black text-slate-900">500+</p>
+                      <p className="text-[11px] font-semibold text-slate-500">Klien Terlayani</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="w-11 h-11 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333ea" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                      <p className="text-[20px] font-black text-slate-900">10+</p>
+                      <p className="text-[11px] font-semibold text-slate-500">Tahun Pengalaman</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="w-11 h-11 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                      <p className="text-[20px] font-black text-slate-900">3 PT</p>
+                      <p className="text-[11px] font-semibold text-slate-500">Resmi & Terpercaya</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Kanan: Gambar Hero */}
+              <div className="flex-1 relative overflow-hidden">
+                <img 
+                  src="/image/hero.png" 
+                  alt="Projasa Hero" 
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: '50% 35%' }}
+                />
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Logo Brand Marquee — di luar max-w-5xl, pakai max-w-7xl sendiri */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-12">
+        <MarqueeBrands />
+      </div>
+
+    </section>
   )
 }

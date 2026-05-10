@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 const googleMapsUrl = 'https://www.google.com/maps/place/PT+Projasa+Legal+Insani+-+Konsultan+Izin+Usaha+-+NIB,+PT,+CV,+PT+PMA,+PASPOR,+VISA,+SAMSAT+%26+DLL/@-8.6827199,115.2002033,17z'
 
@@ -101,133 +101,134 @@ function GoogleIcon({ className = 'w-5 h-5' }) {
 }
 
 export default function Testimonials() {
-  const trackRef = useRef(null)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const totalOriginal = testimonials.length
+  const scrollRef = useRef(null)
+  const animationRef = useRef(null)
+  const scrollPosRef = useRef(0)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => {
-        const next = prev + 1
-        if (next >= totalOriginal) {
-          setTimeout(() => {
-            if (trackRef.current) {
-              trackRef.current.style.scrollBehavior = 'auto'
-              setCurrentIndex(0)
-              setTimeout(() => {
-                if (trackRef.current) {
-                  trackRef.current.style.scrollBehavior = 'smooth'
-                }
-              }, 50)
-            }
-          }, 800)
-          return next
-        }
-        return next
-      })
-    }, 3500)
+    const scrollContainer = scrollRef.current
+    if (!scrollContainer) return
 
-    return () => clearInterval(interval)
-  }, [totalOriginal])
+    // Wait for DOM to render, then calculate total width of one set
+    const cards = scrollContainer.querySelectorAll('.testi-card')
+    const halfCount = cards.length / 2
+    let singleSetWidth = 0
+    for (let i = 0; i < halfCount; i++) {
+      singleSetWidth += cards[i].offsetWidth + 32 // 32px = gap-8
+    }
 
-  useEffect(() => {
-    if (!trackRef.current) return
-    const cards = trackRef.current.querySelectorAll('.testi-card')
-    const index = Math.min(currentIndex, cards.length - 1)
-    if (index < 0 || !cards[index]) return
+    const speed = 0.5 // pixels per frame
 
-    const containerWidth = trackRef.current.parentElement.offsetWidth
-    const scrollPos = cards[index].offsetLeft - (containerWidth / 2) + (cards[index].offsetWidth / 2)
-    trackRef.current.scrollTo({ left: scrollPos, behavior: trackRef.current.style.scrollBehavior || 'smooth' })
-  }, [currentIndex])
+    const animate = () => {
+      scrollPosRef.current += speed
+
+      // Reset seamlessly when we've scrolled past one full set
+      if (scrollPosRef.current >= singleSetWidth) {
+        scrollPosRef.current -= singleSetWidth
+      }
+
+      scrollContainer.style.transform = `translateX(-${scrollPosRef.current}px)`
+      animationRef.current = requestAnimationFrame(animate)
+    }
+
+    animationRef.current = requestAnimationFrame(animate)
+
+    // Pause on hover
+    const handleMouseEnter = () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+        animationRef.current = null
+      }
+    }
+
+    const handleMouseLeave = () => {
+      animationRef.current = requestAnimationFrame(animate)
+    }
+
+    scrollContainer.addEventListener('mouseenter', handleMouseEnter)
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave)
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+      scrollContainer.removeEventListener('mouseenter', handleMouseEnter)
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [])
+
+  // Duplicate testimonials for seamless infinite loop
+  const duplicatedTestimonials = [...testimonials, ...testimonials]
 
   return (
-    <section id="testimonials" className="w-full py-12 relative z-10 bg-transparent overflow-hidden">
+    <section id="testimonials" className="w-full py-24 relative z-10 bg-gradient-to-b from-[#f4f0fd] to-white overflow-hidden">
       {/* Header */}
-      <div className="reveal flex flex-col items-center text-center mb-16 px-6">
-        
-        <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-brand-dark tracking-tight mb-4">
+      <div className="flex flex-col items-center text-center mb-16 px-6">
+        <h2 className="text-[2.5rem] md:text-[3.5rem] leading-[1.05] font-black text-slate-900 tracking-tighter">
           Apa Kata Klien Kami
         </h2>
-        
-
       </div>
 
-      {/* Slider — same layout as before */}
-      <div className="reveal delay-200 relative w-full overflow-hidden flex flex-col items-center">
-        <div ref={trackRef} className="flex gap-4 md:gap-8 overflow-x-hidden w-full no-scrollbar items-stretch pb-8" style={{ scrollBehavior: 'smooth' }}>
-          
-          {/* Spacer Start */}
-          <div className="shrink-0 w-[calc(50vw-45vw)] md:w-[calc(50vw-400px)]"></div>
+      {/* Marquee Slider with blur edges */}
+      <div className="relative w-full overflow-hidden">
+        {/* Left blur/fade overlay */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 z-20 pointer-events-none bg-gradient-to-r from-[#f4f0fd] via-[#f4f0fd]/80 to-transparent" />
+        {/* Right blur/fade overlay */}
+        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 z-20 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent" />
 
-          {/* Cards */}
-          {[...testimonials, testimonials[0]].map((t, i) => (
-            <div key={i} className="testi-card shrink-0 w-[90vw] md:w-[800px] bg-white rounded-[2rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row overflow-hidden snap-center" aria-hidden={i === totalOriginal ? 'true' : undefined}>
+        {/* Scrolling track */}
+        <div
+          ref={scrollRef}
+          className="flex gap-8 items-stretch pb-4 will-change-transform"
+          style={{ width: 'max-content' }}
+        >
+          {duplicatedTestimonials.map((t, i) => (
+            <div
+              key={i}
+              className="testi-card shrink-0 w-[75vw] md:w-[480px] bg-white rounded-[1.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row overflow-hidden"
+            >
               {/* Text Content */}
-              <div className="w-full md:w-[60%] p-8 md:p-12 flex flex-col justify-center bg-white z-10">
-                {/* Google badge */}
-                <div className="flex items-center gap-2 mb-5">
-                  <GoogleIcon className="w-4 h-4" />
-                  <span className="text-xs font-semibold text-slate-400">Google Review</span>
+              <div className="w-full md:w-[60%] p-5 md:p-7 flex flex-col justify-center bg-white z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <GoogleIcon className="w-3.5 h-3.5" />
+                  <span className="text-[11px] font-semibold text-slate-400">Google Review</span>
                 </div>
-
                 <StarRating rating={t.rating} />
-
-                <h3 className="text-2xl md:text-[1.75rem] font-bold text-brand-dark mt-4 mb-4 leading-tight">{t.title}</h3>
-                <p className="text-slate-600 text-sm md:text-base leading-relaxed mb-10 flex-1 font-medium">"{t.text}"</p>
-                
-                <div className="flex items-center gap-3 mt-auto">
-                  <div className={`w-11 h-11 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-sm shadow-sm`}>
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 mt-3 mb-2 leading-tight">{t.title}</h3>
+                <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-1 font-medium">"{t.text}"</p>
+                <div className="flex items-center gap-2.5 mt-auto">
+                  <div className={`w-9 h-9 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-xs shadow-sm`}>
                     {t.initials}
                   </div>
                   <div>
-                    <h4 className="font-bold text-brand-dark text-sm">{t.name}</h4>
-                    <p className="text-xs text-slate-500 font-medium">Klien Projasa</p>
+                    <h4 className="font-bold text-slate-900 text-xs">{t.name}</h4>
+                    <p className="text-[10px] text-slate-500 font-medium">Klien Projasa</p>
                   </div>
                 </div>
               </div>
 
-              {/* Right side — illustration */}
-              <div className="w-full md:w-[40%] h-64 md:h-auto bg-gradient-to-br from-brand-blue/5 to-brand-blue/10 flex items-center justify-center relative overflow-hidden">
-                <img
-                  src={t.image}
-                  alt={t.title}
-                  className="w-full h-full object-contain p-6 md:p-8"
-                />
+              {/* Right side image */}
+              <div className="w-full md:w-[40%] h-48 md:h-auto bg-gradient-to-br from-[#f4f0fd] to-[#e1f7f5] flex items-center justify-center relative overflow-hidden">
+                <img src={t.image} alt={t.title} className="w-full h-full object-cover" loading="lazy" />
               </div>
             </div>
-          ))}
-
-          {/* Spacer End */}
-          <div className="shrink-0 w-[calc(50vw-45vw)] md:w-[calc(50vw-400px)]"></div>
-        </div>
-
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-4">
-          {testimonials.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === currentIndex % totalOriginal ? 'w-8 bg-brand-blue' : 'w-2 bg-slate-200'
-              }`}
-            />
           ))}
         </div>
       </div>
 
-      {/* CTA: Lihat Semua Ulasan */}
-      <div className="reveal delay-300 flex justify-center mt-12 px-6">
+      {/* CTA */}
+      <div className="flex justify-center mt-12 px-6">
         <a
           href={googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 px-7 py-4 bg-white border-2 border-slate-200 rounded-full shadow-sm hover:shadow-lg hover:border-brand-blue/30 transition-all duration-300"
+          className="group inline-flex items-center gap-3 px-7 py-4 bg-white border-2 border-slate-200 rounded-full shadow-sm hover:shadow-lg hover:border-[#c892ff]/30 transition-all duration-300"
         >
           <GoogleIcon />
-          <span className="font-semibold text-brand-dark text-sm md:text-base">
+          <span className="font-semibold text-slate-900 text-sm md:text-base">
             Lihat Semua Ulasan di Google Maps
           </span>
-          <svg className="w-4 h-4 text-slate-400 group-hover:text-brand-blue group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-slate-400 group-hover:text-[#c892ff] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>
