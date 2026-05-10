@@ -28,7 +28,7 @@ export default function VideoFloat() {
   }
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed bottom-6 left-4 sm:left-6 z-50">
       {/* Expanded Video Player */}
       <div
         className={`transition-all duration-500 ease-in-out origin-bottom-left ${
@@ -37,7 +37,7 @@ export default function VideoFloat() {
             : 'opacity-0 scale-0 pointer-events-none'
         }`}
       >
-        <div className="relative bg-black rounded-2xl shadow-2xl overflow-hidden w-[280px] sm:w-[320px]">
+        <div className="relative bg-black rounded-2xl shadow-2xl overflow-hidden w-[260px] sm:w-[320px]">
           {/* Close button */}
           <button
             onClick={handleToggle}
@@ -82,7 +82,7 @@ export default function VideoFloat() {
           <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-20"></div>
 
           {/* Bubble with video thumbnail */}
-          <div className="relative w-40 h-40 rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-110 transition-all duration-300 overflow-hidden border-3 border-white">
+          <div className="relative w-28 h-28 sm:w-40 sm:h-40 rounded-full shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-110 transition-all duration-300 overflow-hidden border-3 border-white">
             {/* Video preview (muted, autoplay loop) */}
             <video
               src="/video_iklan/ingin_bangun_bisnis.mp4"

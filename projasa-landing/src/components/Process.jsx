@@ -24,18 +24,54 @@ const steps = [
 
 export default function Process() {
   return (
-    <section id="proses" className="w-full py-24 bg-gradient-to-b from-white to-[#f4f0fd] relative z-10">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="proses" className="w-full py-16 sm:py-24 bg-gradient-to-b from-white to-[#f4f0fd] relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <p className="text-[13px] font-bold text-slate-500 tracking-widest mb-4 uppercase">Proses Kerja</p>
-          <h2 className="text-[2.5rem] md:text-[3.5rem] leading-[1.05] font-black text-slate-900 tracking-tighter">
+        <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
+          <p className="text-[12px] sm:text-[13px] font-bold text-slate-500 tracking-widest mb-3 sm:mb-4 uppercase">Proses Kerja</p>
+          <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3.5rem] leading-[1.05] font-black text-slate-900 tracking-tighter">
             Cara Kami Bekerja
           </h2>
         </div>
 
-        {/* Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Steps — Mobile: sticky overlap, Desktop: grid */}
+        {/* Mobile Layout */}
+        <div className="flex flex-col md:hidden">
+          {steps.map((step, index) => (
+            <div 
+              key={step.num} 
+              className="sticky top-20 bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-lg"
+              style={{ zIndex: (index + 1) * 10, marginBottom: index < steps.length - 1 ? '-12px' : '0' }}
+            >
+              {/* Image */}
+              <div className="w-full h-32 overflow-hidden relative">
+                <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-[#c892ff] text-white flex items-center justify-center text-xs font-black shadow-lg">
+                  {step.num}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-4">
+                <h3 className="text-[15px] font-bold text-slate-900 mb-2 tracking-tight">{step.title}</h3>
+                
+                <ul className="space-y-1.5">
+                  {step.items.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-slate-700 text-[11px] font-medium">
+                      <div className="w-4 h-4 rounded-full bg-[#e6f5f2] flex items-center justify-center shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-teal-600"><polyline points="20 6 9 17 4 12"/></svg>
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:grid grid-cols-3 gap-8">
           {steps.map((step) => (
             <div key={step.num} className="group relative bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
               {/* Image */}

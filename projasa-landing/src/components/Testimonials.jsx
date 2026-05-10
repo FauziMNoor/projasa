@@ -161,10 +161,10 @@ export default function Testimonials() {
   const duplicatedTestimonials = [...testimonials, ...testimonials]
 
   return (
-    <section id="testimonials" className="w-full py-24 relative z-10 bg-gradient-to-b from-[#f4f0fd] to-white overflow-hidden">
+    <section id="testimonials" className="w-full py-16 sm:py-24 relative z-10 bg-gradient-to-b from-[#f4f0fd] to-white overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col items-center text-center mb-16 px-6">
-        <h2 className="text-[2.5rem] md:text-[3.5rem] leading-[1.05] font-black text-slate-900 tracking-tighter">
+      <div className="flex flex-col items-center text-center mb-10 sm:mb-16 px-4 sm:px-6">
+        <h2 className="text-[2rem] sm:text-[2.5rem] md:text-[3.5rem] leading-[1.05] font-black text-slate-900 tracking-tighter">
           Apa Kata Klien Kami
         </h2>
       </div>
@@ -179,36 +179,36 @@ export default function Testimonials() {
         {/* Scrolling track */}
         <div
           ref={scrollRef}
-          className="flex gap-8 items-stretch pb-4 will-change-transform"
+          className="flex gap-4 sm:gap-8 items-stretch pb-4 will-change-transform"
           style={{ width: 'max-content' }}
         >
           {duplicatedTestimonials.map((t, i) => (
             <div
               key={i}
-              className="testi-card shrink-0 w-[75vw] md:w-[480px] bg-white rounded-[1.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row overflow-hidden"
+              className="testi-card shrink-0 w-[55vw] sm:w-[75vw] md:w-[480px] bg-white rounded-[1rem] sm:rounded-[1.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row overflow-hidden"
             >
               {/* Text Content */}
-              <div className="w-full md:w-[60%] p-5 md:p-7 flex flex-col justify-center bg-white z-10">
-                <div className="flex items-center gap-2 mb-3">
-                  <GoogleIcon className="w-3.5 h-3.5" />
-                  <span className="text-[11px] font-semibold text-slate-400">Google Review</span>
+              <div className="w-full md:w-[60%] p-3 sm:p-5 md:p-7 flex flex-col justify-center bg-white z-10">
+                <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-3">
+                  <GoogleIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <span className="text-[9px] sm:text-[11px] font-semibold text-slate-400">Google Review</span>
                 </div>
                 <StarRating rating={t.rating} />
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 mt-3 mb-2 leading-tight">{t.title}</h3>
-                <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-1 font-medium">"{t.text}"</p>
-                <div className="flex items-center gap-2.5 mt-auto">
-                  <div className={`w-9 h-9 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-xs shadow-sm`}>
+                <h3 className="text-[13px] sm:text-lg md:text-xl font-bold text-slate-900 mt-2 sm:mt-3 mb-1 sm:mb-2 leading-tight">{t.title}</h3>
+                <p className="text-slate-600 text-[10px] sm:text-xs md:text-sm leading-relaxed mb-3 sm:mb-5 flex-1 font-medium line-clamp-3 sm:line-clamp-none">"{t.text}"</p>
+                <div className="flex items-center gap-2 sm:gap-2.5 mt-auto">
+                  <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-[9px] sm:text-xs shadow-sm`}>
                     {t.initials}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-xs">{t.name}</h4>
-                    <p className="text-[10px] text-slate-500 font-medium">Klien Projasa</p>
+                    <h4 className="font-bold text-slate-900 text-[10px] sm:text-xs">{t.name}</h4>
+                    <p className="text-[8px] sm:text-[10px] text-slate-500 font-medium">Klien Projasa</p>
                   </div>
                 </div>
               </div>
 
               {/* Right side image */}
-              <div className="w-full md:w-[40%] h-48 md:h-auto bg-gradient-to-br from-[#f4f0fd] to-[#e1f7f5] flex items-center justify-center relative overflow-hidden">
+              <div className="hidden sm:flex w-full md:w-[40%] h-48 md:h-auto bg-gradient-to-br from-[#f4f0fd] to-[#e1f7f5] items-center justify-center relative overflow-hidden">
                 <img src={t.image} alt={t.title} className="w-full h-full object-cover" loading="lazy" />
               </div>
             </div>
@@ -217,18 +217,18 @@ export default function Testimonials() {
       </div>
 
       {/* CTA */}
-      <div className="flex justify-center mt-12 px-6">
+      <div className="flex justify-center mt-8 sm:mt-12 px-4 sm:px-6">
         <a
           href={googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 px-7 py-4 bg-white border-2 border-slate-200 rounded-full shadow-sm hover:shadow-lg hover:border-[#c892ff]/30 transition-all duration-300"
+          className="group inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-7 py-2.5 sm:py-4 bg-white border-2 border-slate-200 rounded-full shadow-sm hover:shadow-lg hover:border-[#c892ff]/30 transition-all duration-300"
         >
-          <GoogleIcon />
-          <span className="font-semibold text-slate-900 text-sm md:text-base">
-            Lihat Semua Ulasan di Google Maps
+          <GoogleIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="font-semibold text-slate-900 text-[11px] sm:text-sm md:text-base">
+            Lihat Ulasan di Google Maps
           </span>
-          <svg className="w-4 h-4 text-slate-400 group-hover:text-[#c892ff] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 group-hover:text-[#c892ff] group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>

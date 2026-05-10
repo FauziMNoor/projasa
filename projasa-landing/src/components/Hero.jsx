@@ -56,6 +56,8 @@ function MarqueeBrands() {
       }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
     >
       {[0, 1].map((set) => (
         <div
@@ -128,10 +130,10 @@ function StatusBadge({ status }) {
 
 function ClientDataModal({ data, nomorLayanan, onClose }) {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       <div 
-        className="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 animate-[curtainReveal_0.4s_ease-out]"
+        className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md p-5 sm:p-8 animate-[curtainReveal_0.4s_ease-out] max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -270,23 +272,23 @@ export default function Hero({ onViewServices }) {
           </span>
         </div>
 
-        <h1 className="text-[3rem] md:text-[5.5rem] font-black text-slate-900 tracking-tighter mb-6 leading-[1.05]">
+        <h1 className="text-[2.2rem] sm:text-[3rem] md:text-[5.5rem] font-black text-slate-900 tracking-tighter mb-4 sm:mb-6 leading-[1.05]">
           Solusi Legalitas <br className="hidden md:block"/> Bisnis Terpercaya
         </h1>
         
-        <p className="text-lg md:text-xl text-slate-800 font-medium max-w-2xl mb-12 leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-slate-800 font-medium max-w-2xl mb-8 sm:mb-12 leading-relaxed">
           Urus izin usaha, legalitas, dan dokumen teknis tanpa ribet. Cukup konsultasi, kami yang handle semuanya.
         </p>
 
         {/* Bar Pengecekan Data Klien */}
         <div className="w-full max-w-2xl relative z-20">
-          <div className="bg-white/50 backdrop-blur-md p-1.5 rounded-full border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex flex-col sm:flex-row gap-0 sm:items-center">
-            <div className="flex-1 flex items-center bg-white px-4 sm:px-6 py-4 rounded-t-2xl sm:rounded-l-full sm:rounded-r-none">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mr-3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <div className="bg-white/50 backdrop-blur-md p-1.5 rounded-3xl sm:rounded-full border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex flex-col sm:flex-row gap-0 sm:items-center">
+            <div className="flex-1 flex items-center bg-white px-4 sm:px-6 py-3.5 sm:py-4 rounded-t-2xl sm:rounded-l-full sm:rounded-r-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mr-2 sm:mr-3"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <input 
                 type="text" 
-                placeholder="Masukkan nomor layanan (cth: SRV-2025-000123)"
-                className="flex-1 bg-transparent border-none text-slate-900 placeholder:text-slate-400 focus:outline-none text-base"
+                placeholder="Cth: SRV-2025-000123"
+                className="flex-1 bg-transparent border-none text-slate-900 placeholder:text-slate-400 focus:outline-none text-sm sm:text-base"
                 value={trackingCode}
                 onChange={(e) => setTrackingCode(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -294,7 +296,7 @@ export default function Hero({ onViewServices }) {
             </div>
             <button 
               onClick={handleCekData}
-              className="bg-[#c892ff] hover:bg-[#b87df8] text-white px-8 py-4 rounded-b-2xl sm:rounded-full text-base font-bold transition-all whitespace-nowrap w-full sm:w-auto text-center cursor-pointer"
+              className="bg-[#c892ff] hover:bg-[#b87df8] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-b-2xl sm:rounded-full text-sm sm:text-base font-bold transition-all whitespace-nowrap w-full sm:w-auto text-center cursor-pointer"
             >
               Cek Data
             </button>
@@ -311,18 +313,46 @@ export default function Hero({ onViewServices }) {
 
 
         {/* Hero Image — Split Layout: Gambar + Stats */}
-        <div className="mt-16 w-full max-w-5xl relative z-10 px-4 md:px-0">
-          <div className="bg-white/40 backdrop-blur-xl p-3 rounded-[32px] border border-white/60 shadow-2xl">
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row h-[450px]">
+        <div className="mt-12 sm:mt-16 w-full max-w-5xl relative z-10 px-0 md:px-0">
+          <div className="bg-white/40 backdrop-blur-xl p-2 sm:p-3 rounded-[24px] sm:rounded-[32px] border border-white/60 shadow-2xl">
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden flex flex-col-reverse md:flex-row md:h-[450px]">
               
               {/* Kiri: Stats & Info */}
-              <div className="w-full md:w-[320px] p-8 flex flex-col justify-center gap-6 bg-white">
-                <div>
+              <div className="w-full md:w-[320px] p-4 sm:p-8 flex flex-col justify-center gap-4 sm:gap-6 bg-white">
+                <div className="hidden md:block">
                   <h3 className="text-[22px] font-black text-slate-900 tracking-tight mb-2">Kenapa Projasa?</h3>
                   <p className="text-[13px] text-slate-500 leading-relaxed">Solusi legalitas bisnis terlengkap di Bali dengan pengalaman lebih dari 10 tahun.</p>
                 </div>
 
-                <div className="flex flex-col gap-4">
+                {/* Mobile: 3 stats horizontal dalam 1 baris */}
+                <div className="grid grid-cols-3 gap-2 md:hidden">
+                  <div className="flex flex-col items-center text-center p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <p className="text-[16px] font-black text-slate-900 leading-tight">500+</p>
+                    <p className="text-[9px] font-semibold text-slate-500 mt-0.5">Klien Terlayani</p>
+                  </div>
+
+                  <div className="flex flex-col items-center text-center p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9333ea" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <p className="text-[16px] font-black text-slate-900 leading-tight">10+</p>
+                    <p className="text-[9px] font-semibold text-slate-500 mt-0.5">Tahun Pengalaman</p>
+                  </div>
+
+                  <div className="flex flex-col items-center text-center p-3 rounded-xl bg-slate-50 border border-slate-100">
+                    <div className="w-9 h-9 rounded-full bg-teal-100 flex items-center justify-center mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0d9488" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <p className="text-[16px] font-black text-slate-900 leading-tight">3 PT</p>
+                    <p className="text-[9px] font-semibold text-slate-500 mt-0.5">Resmi & Terpercaya</p>
+                  </div>
+                </div>
+
+                {/* Desktop: Stats vertikal (original) */}
+                <div className="hidden md:flex flex-col gap-4">
                   <div className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
                     <div className="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center shrink-0">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -356,12 +386,12 @@ export default function Hero({ onViewServices }) {
               </div>
 
               {/* Kanan: Gambar Hero */}
-              <div className="flex-1 relative overflow-hidden">
+              <div className="flex-1 relative overflow-hidden h-[160px] md:h-auto">
                 <img 
                   src="/image/hero.png" 
                   alt="Projasa Hero" 
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: '50% 35%' }}
+                  className="w-full h-full object-cover md:object-cover"
+                  style={{ objectPosition: '50% 30%' }}
                 />
               </div>
 

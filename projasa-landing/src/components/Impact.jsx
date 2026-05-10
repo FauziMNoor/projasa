@@ -85,10 +85,10 @@ export default function Impact() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{ perspective: '2000px' }}>
         {stats.map((stat, index) => (
           <div key={stat.title} className={`reveal delay-${(index + 1) * 100}`}>
-            <div className="tilt-card bg-white rounded-[2rem] pt-24 pb-14 px-8 relative overflow-hidden h-[400px] flex flex-col items-center justify-end shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 will-change-transform transition-transform duration-300 ease-out">
+            <div className="tilt-card bg-white rounded-[2rem] pt-16 sm:pt-24 pb-10 sm:pb-14 px-6 sm:px-8 relative overflow-hidden h-[320px] sm:h-[400px] flex flex-col items-center justify-end shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 will-change-transform transition-transform duration-300 ease-out">
               {/* Faded Number */}
-              <div className="absolute top-16 inset-x-0 w-full flex justify-center overflow-hidden pointer-events-none" style={{ WebkitMaskImage: 'linear-gradient(to bottom, rgba(15,23,42,1) 35%, rgba(15,23,42,0) 80%)', maskImage: 'linear-gradient(to bottom, rgba(15,23,42,1) 35%, rgba(15,23,42,0) 80%)' }}>
-                <span className="text-[5rem] sm:text-[6rem] lg:text-[8rem] whitespace-nowrap font-medium text-brand-dark tracking-tighter leading-none select-none">{stat.number}</span>
+              <div className="absolute top-12 sm:top-16 inset-x-0 w-full flex justify-center overflow-hidden pointer-events-none" style={{ WebkitMaskImage: 'linear-gradient(to bottom, rgba(15,23,42,1) 35%, rgba(15,23,42,0) 80%)', maskImage: 'linear-gradient(to bottom, rgba(15,23,42,1) 35%, rgba(15,23,42,0) 80%)' }}>
+                <span className="text-[4rem] sm:text-[6rem] lg:text-[8rem] whitespace-nowrap font-medium text-brand-dark tracking-tighter leading-none select-none">{stat.number}</span>
               </div>
               
               {/* Text */}
