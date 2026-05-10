@@ -1,28 +1,48 @@
-const companies = [
-  {
-    name: 'PT Projasa Legal Insani',
-    shortName: 'Legal Insani',
-    description: 'Perizinan & Legalitas',
-    image: '/image/pt/legal_insani.png',
-    color: 'border-blue-200 bg-blue-50/50',
-  },
-  {
-    name: 'PT Projasa Nusantara Jaya',
-    shortName: 'Nusantara Jaya',
-    description: 'Konstruksi & Lingkungan',
-    image: '/image/pt/nusantara_jaya.png',
-    color: 'border-emerald-200 bg-emerald-50/50',
-  },
-  {
-    name: 'PT Projasa Teknika Studio',
-    shortName: 'Teknika Studio',
-    description: 'Outsourcing & SDM',
-    image: '/image/pt/teknika_studio.png',
-    color: 'border-violet-200 bg-violet-50/50',
-  },
+import { useState, useEffect } from 'react'
+
+const typingTexts = [
+  'Mau urus izin usaha?',
+  'Butuh konsultan legal?',
+  'Perlu SLF & IMB?',
+  'Cari jasa konstruksi?',
+  'Mau buat PT atau CV?',
 ]
 
-export default function Hero({ onViewCompany }) {
+function useTypingEffect(texts, typingSpeed = 80, deletingSpeed = 40, pauseDuration = 2000) {
+  const [displayText, setDisplayText] = useState('')
+  const [textIndex, setTextIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const currentFullText = texts[textIndex]
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        // Typing
+        setDisplayText(currentFullText.slice(0, displayText.length + 1))
+        if (displayText.length + 1 === currentFullText.length) {
+          // Pause before deleting
+          setTimeout(() => setIsDeleting(true), pauseDuration)
+        }
+      } else {
+        // Deleting
+        setDisplayText(currentFullText.slice(0, displayText.length - 1))
+        if (displayText.length - 1 === 0) {
+          setIsDeleting(false)
+          setTextIndex((prev) => (prev + 1) % texts.length)
+        }
+      }
+    }, isDeleting ? deletingSpeed : typingSpeed)
+
+    return () => clearTimeout(timeout)
+  }, [displayText, isDeleting, textIndex, texts, typingSpeed, deletingSpeed, pauseDuration])
+
+  return displayText
+}
+
+export default function Hero({ onViewServices }) {
+  const typedText = useTypingEffect(typingTexts)
+
   return (
     <div className="relative w-full bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('https://i.pinimg.com/736x/27/c5/d1/27c5d192d0a032a0d43fa043e748a8a1.jpg')" }}>
       
@@ -32,57 +52,35 @@ export default function Hero({ onViewCompany }) {
       <main className="w-full max-w-7xl mx-auto px-6 pt-32 lg:pt-40 pb-12 lg:pb-20 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
         {/* Left Column */}
         <div className="lg:col-span-6 flex flex-col items-start z-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200/50 shadow-sm mb-8 animate-[fadeInDown_0.5s_ease-out]">
-            <span className="text-base">✨</span>
-            <span className="text-sm font-bold text-slate-700">Konsultan Legal & Perizinan Terpercaya</span>
+          {/* Typing Effect */}
+          <div className="mb-6">
+            <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-brand-dark drop-shadow-sm">
+              {typedText}
+              <span className="inline-block w-[3px] h-[1em] bg-brand-blue ml-1 animate-pulse align-middle"></span>
+            </span>
           </div>
-          
-          <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-brand-dark leading-[1.1] tracking-tight mb-6">
-            Solusi Lengkap<br />
-            <span className="text-brand-dark">Perizinan & Legal</span>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight mb-6">
+            <span className="block text-brand-dark mb-2 sm:mb-3">The Most Trusted</span>
+            <span className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+              <span className="text-brand-blue">Legal Company</span>
+              <span className="text-brand-dark">in Bali.</span>
+            </span>
           </h1>
           
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-lg mb-10 font-medium">
-            PT Projasa Legal Insani, PT Projasa Nusantara Jaya, dan PT Projasa Teknika Studio siap membantu kebutuhan legal, perizinan, teknik, dan lingkungan bisnis Anda.
+            Urus izin usaha, legalitas, dan dokumen teknis tanpa ribet. Cukup konsultasi, kami yang handle semuanya.
           </p>
           
-          <div className="flex flex-wrap items-center gap-4 mb-14">
+          <div className="flex flex-wrap items-center gap-4">
             <a href="https://wa.me/628125532111" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-brand-blue text-white px-7 py-4 rounded-full text-base font-bold hover:bg-brand-hover hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 transform hover:-translate-y-1">
               Konsultasi Gratis
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="bg-white/20 rounded-full p-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
-            <a href="#layanan" className="flex items-center gap-2 glass text-slate-800 px-7 py-4 rounded-full text-base font-bold hover:bg-white transition-all duration-300 transform hover:-translate-y-1">
+            <button onClick={onViewServices} className="flex items-center gap-2 glass text-slate-800 px-7 py-4 rounded-full text-base font-bold hover:bg-white transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
               Lihat Layanan
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-blue"><path d="M2 12h20"/><path d="m14 5 7 7-7 7"/></svg>
-            </a>
-          </div>
-          
-          {/* Mini Cards 3 PT */}
-          <div className="flex flex-wrap gap-2">
-            {companies.map((company) => (
-              <button
-                key={company.name}
-                onClick={() => onViewCompany(company.name)}
-                className={`group relative flex items-center gap-2.5 px-3 py-2.5 rounded-xl border ${company.color} backdrop-blur-sm hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden`}
-              >
-                <img
-                  src={company.image}
-                  alt={company.shortName}
-                  className="w-9 h-9 rounded-lg object-cover border border-white/80 shadow-sm"
-                />
-                <div className="text-left">
-                  <p className="text-xs font-bold text-brand-dark leading-tight group-hover:text-brand-blue transition-colors">PT {company.shortName}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">{company.description}</p>
-                </div>
-                {/* Hover CTA overlay */}
-                <span className="absolute inset-0 flex items-center justify-center bg-brand-blue/90 backdrop-blur-sm rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-[11px] font-bold text-white flex items-center gap-1">
-                    Lihat Layanan
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                  </span>
-                </span>
-              </button>
-            ))}
+            </button>
           </div>
         </div>
 

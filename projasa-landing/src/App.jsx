@@ -4,8 +4,6 @@ import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import ServiceCards from './components/ServiceCards'
 import Mission from './components/Mission'
-import Services from './components/Services'
-import Impact from './components/Impact'
 import Testimonials from './components/Testimonials'
 import Process from './components/Process'
 import CTA from './components/CTA'
@@ -35,7 +33,6 @@ export default function App() {
   const goToHome = () => {
     setPage('home')
     setSelectedCompany(null)
-    window.scrollTo(0, 0)
   }
 
   if (page === 'company' && selectedCompany) {
@@ -65,12 +62,10 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <Hero onViewCompany={goToCompany} />
-      <ServiceCards />
+      <Hero onViewServices={goToServices} />
+      <ServiceCards onViewCompany={goToCompany} onViewServices={goToServices} />
       <Mission />
-      <Services />
       <Marquee />
-      <Impact />
       <Testimonials />
       <Process />
       <CTA />

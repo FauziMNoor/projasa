@@ -18,11 +18,26 @@ export function useScrollReveal() {
       })
     }, revealOptions)
 
-    const elements = document.querySelectorAll('.reveal, .reveal-fade')
-    elements.forEach((el) => revealObserver.observe(el))
+    const observeElements = () => {
+      const elements = document.querySelectorAll('.reveal, .reveal-fade')
+      elements.forEach((el) => revealObserver.observe(el))
+    }
+
+    observeElements()
+
+    // Re-observe when DOM changes (e.g. page navigation)
+    const mutationObserver = new MutationObserver(() => {
+      observeElements()
+    })
+
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    })
 
     return () => {
-      elements.forEach((el) => revealObserver.unobserve(el))
+      revealObserver.disconnect()
+      mutationObserver.disconnect()
     }
   }, [])
 }

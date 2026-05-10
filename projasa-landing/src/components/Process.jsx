@@ -27,21 +27,14 @@ const steps = [
 
 export default function Process() {
   return (
-    <section id="proses" className="w-full max-w-7xl mx-auto px-6 py-24 relative z-10">
+    <section id="proses" className="w-full max-w-7xl mx-auto px-6 py-12 relative z-10">
       {/* Header */}
       <div className="reveal flex flex-col items-center text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm mb-6">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-700"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
-          <span className="text-xs font-semibold text-slate-700 tracking-wide">Cara Kami Bekerja</span>
-        </div>
         
         <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-brand-dark tracking-tight mb-4">
           Proses Kami
         </h2>
         
-        <p className="text-lg text-slate-600 max-w-2xl font-medium">
-          Pendekatan terstruktur yang mengubah kebutuhan Anda menjadi hasil nyata, di setiap langkahnya.
-        </p>
       </div>
 
       {/* Timeline */}
