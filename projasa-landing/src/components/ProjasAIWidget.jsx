@@ -331,17 +331,17 @@ export default function ProjasAIWidget() {
         />
       </button>
 
-      {/* Typing Bubble - appears after 5 seconds with typing effect */}
+      {/* Typing Bubble - only on desktop */}
       {showBubble && !isOpen && (
-        <div className="fixed z-50 bottom-[7.5rem] right-3 sm:bottom-[9.5rem] sm:right-[5rem] animate-fade-in">
-          <div className="relative bg-white border border-blue-200 rounded-lg shadow-md px-2 py-1.5 max-w-[140px] sm:max-w-[200px]">
+        <div className="fixed z-50 bottom-[9.5rem] right-[5rem] animate-fade-in hidden sm:block">
+          <div className="relative bg-white border border-blue-200 rounded-lg shadow-md px-3 py-2 max-w-[200px]">
             <button
               onClick={() => setShowBubble(false)}
               className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-gray-300 hover:bg-gray-400 rounded-full flex items-center justify-center text-gray-700 text-[9px] font-bold transition-colors"
             >
               ✕
             </button>
-            <p className="text-[11px] sm:text-sm text-gray-800 font-medium leading-tight min-h-[1.2rem]">
+            <p className="text-sm text-gray-800 font-medium leading-snug min-h-[1.5rem]">
               {typingText}
               <span className="inline-block w-0.5 h-3 bg-blue-600 ml-0.5 animate-pulse align-middle"></span>
             </p>

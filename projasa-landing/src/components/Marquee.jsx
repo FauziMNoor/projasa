@@ -26,6 +26,7 @@ export default function Marquee() {
                   src={`/image/logobrand_project/${logo}`}
                   alt="brand"
                   className="h-10 md:h-12 w-auto"
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -39,6 +40,7 @@ export default function Marquee() {
                   src={`/image/logobrand_project/${logo}`}
                   alt="brand"
                   className="h-10 md:h-12 w-auto"
+                  loading="lazy"
                 />
               </div>
             ))}

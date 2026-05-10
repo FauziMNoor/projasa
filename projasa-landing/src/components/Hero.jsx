@@ -72,6 +72,7 @@ function MarqueeBrands() {
                 src={`/image/logobrand_project/${logo}`}
                 alt="brand"
                 className="h-9 md:h-11 w-auto object-contain"
+                loading="lazy"
               />
             </div>
           ))}

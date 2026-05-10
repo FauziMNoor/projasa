@@ -1,6 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export function useScrollReveal() {
+  const observerRef = useRef(null)
+
   useEffect(() => {
     const revealOptions = {
       root: null,
@@ -8,36 +10,23 @@ export function useScrollReveal() {
       threshold: 0.15,
     }
 
-    const revealObserver = new IntersectionObserver((entries) => {
+    observerRef.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active')
-        } else {
-          entry.target.classList.remove('active')
+          // Once revealed, stop observing (one-time animation)
+          observerRef.current.unobserve(entry.target)
         }
       })
     }, revealOptions)
 
-    const observeElements = () => {
-      const elements = document.querySelectorAll('.reveal, .reveal-fade')
-      elements.forEach((el) => revealObserver.observe(el))
-    }
-
-    observeElements()
-
-    // Re-observe when DOM changes (e.g. page navigation)
-    const mutationObserver = new MutationObserver(() => {
-      observeElements()
-    })
-
-    mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-    })
+    const elements = document.querySelectorAll('.reveal, .reveal-fade')
+    elements.forEach((el) => observerRef.current.observe(el))
 
     return () => {
-      revealObserver.disconnect()
-      mutationObserver.disconnect()
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
     }
   }, [])
 }

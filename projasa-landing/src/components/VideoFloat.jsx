@@ -1,8 +1,19 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 export default function VideoFloat() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const videoRef = useRef(null)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Don't render anything on mobile
+  if (isMobile) return null
 
   const handleToggle = () => {
     if (isOpen) {
@@ -28,7 +39,7 @@ export default function VideoFloat() {
   }
 
   return (
-    <div className="fixed bottom-6 left-4 sm:left-6 z-50 hidden sm:block">
+    <div className="fixed bottom-6 left-4 sm:left-6 z-50">
       {/* Expanded Video Player */}
       <div
         className={`transition-all duration-500 ease-in-out origin-bottom-left ${
