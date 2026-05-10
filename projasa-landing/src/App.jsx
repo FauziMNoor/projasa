@@ -10,6 +10,7 @@ import AllServices from './components/AllServices'
 import CompanyServices from './components/CompanyServices'
 import WhatsAppFloat from './components/WhatsAppFloat'
 import VideoFloat from './components/VideoFloat'
+import ProjasAIWidget from './components/ProjasAIWidget'
 import { useScrollReveal } from './hooks/useScrollReveal'
 
 export default function App() {
@@ -63,6 +64,7 @@ export default function App() {
         <RevealFooter />
         <WhatsAppFloat />
         <VideoFloat />
+        <ProjasAIWidget />
       </div>
     )
   }
@@ -84,6 +86,7 @@ export default function App() {
       <RevealFooter />
       <WhatsAppFloat />
       <VideoFloat />
+      <ProjasAIWidget />
     </div>
   )
 }
