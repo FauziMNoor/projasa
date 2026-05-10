@@ -327,7 +327,7 @@ export default function ProjasAIWidget() {
         <img 
           src="/image/robot.png" 
           alt="Chat dengan Projas AI" 
-          className="w-20 h-20 sm:w-24 sm:h-24 object-contain hover:scale-110 transition-transform drop-shadow-lg"
+          className="w-12 h-12 sm:w-14 sm:h-14 object-contain hover:scale-110 transition-transform drop-shadow-lg"
         />
       </button>
 
