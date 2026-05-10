@@ -333,20 +333,20 @@ export default function ProjasAIWidget() {
 
       {/* Typing Bubble - appears after 5 seconds with typing effect */}
       {showBubble && !isOpen && (
-        <div className="fixed z-50 bottom-[9.5rem] right-[5rem] animate-fade-in">
-          <div className="relative bg-white border border-blue-200 rounded-xl shadow-lg px-4 py-3 max-w-[230px]">
+        <div className="fixed z-50 bottom-[5.5rem] right-[4.5rem] sm:bottom-[9.5rem] sm:right-[5rem] animate-fade-in">
+          <div className="relative bg-white border border-blue-200 rounded-lg shadow-md px-3 py-2 max-w-[160px] sm:max-w-[200px]">
             <button
               onClick={() => setShowBubble(false)}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-gray-300 hover:bg-gray-400 rounded-full flex items-center justify-center text-gray-700 text-xs font-bold transition-colors"
+              className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-gray-300 hover:bg-gray-400 rounded-full flex items-center justify-center text-gray-700 text-[9px] font-bold transition-colors"
             >
               ✕
             </button>
-            <p className="text-sm text-gray-800 font-medium leading-snug min-h-[2.5rem]">
+            <p className="text-xs sm:text-sm text-gray-800 font-medium leading-snug min-h-[1.5rem]">
               {typingText}
-              <span className="inline-block w-0.5 h-4 bg-blue-600 ml-0.5 animate-pulse align-middle"></span>
+              <span className="inline-block w-0.5 h-3 bg-blue-600 ml-0.5 animate-pulse align-middle"></span>
             </p>
             {/* Arrow pointing to robot button */}
-            <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-b border-r border-blue-200 transform rotate-45"></div>
+            <div className="absolute -bottom-1.5 right-4 w-3 h-3 bg-white border-b border-r border-blue-200 transform rotate-45"></div>
           </div>
         </div>
       )}
