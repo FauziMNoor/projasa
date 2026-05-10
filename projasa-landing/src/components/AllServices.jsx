@@ -135,12 +135,12 @@ export default function AllServices({ onBack }) {
 
       {/* Filter */}
       <div className="max-w-7xl mx-auto px-6 pb-8">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {allCategories.map(cat => (
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-bold transition-all duration-200 ${
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 ${
                 activeFilter === cat
                   ? 'bg-brand-blue text-white shadow-md shadow-blue-500/20'
                   : 'bg-white text-slate-600 border border-slate-200 hover:border-brand-blue hover:text-brand-blue'
