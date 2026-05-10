@@ -239,22 +239,14 @@ export default function ProjasAIWidget() {
       {/* Floating Robot Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed z-50 bottom-24 right-4 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 transition-all duration-300 flex items-center justify-center ${
-          isOpen ? 'bg-gray-700 rounded-full shadow-lg' : ''
-        }`}
+        className="fixed z-50 bottom-24 right-4 sm:right-6 transition-all duration-300 flex items-center justify-center"
         aria-label={isOpen ? 'Tutup chat' : 'Buka chat'}
       >
-        {isOpen ? (
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <img 
-            src="/image/robot.png" 
-            alt="Chat dengan Projas AI" 
-            className="w-14 h-14 sm:w-16 sm:h-16 object-contain hover:scale-110 transition-transform drop-shadow-lg"
-          />
-        )}
+        <img 
+          src="/image/robot.png" 
+          alt="Chat dengan Projas AI" 
+          className="w-20 h-20 sm:w-24 sm:h-24 object-contain hover:scale-110 transition-transform drop-shadow-lg"
+        />
       </button>
 
       {/* Typing Bubble - appears after 5 seconds with typing effect */}
