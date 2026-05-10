@@ -198,15 +198,23 @@ export default function ProjasAIWidget() {
 
   return (
     <>
+      {/* Backdrop blur on mobile when chat is open */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm sm:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Chat Window */}
       <div
         className={`fixed z-50 transition-all duration-300 ease-in-out ${
           isOpen 
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-4 pointer-events-none'
-        } sm:bottom-40 sm:right-6 sm:w-[360px] sm:h-[480px] sm:max-h-[calc(100vh-200px)] sm:rounded-2xl
-          bottom-0 right-0 w-full h-[100dvh] max-h-[100dvh] rounded-none
-          max-w-[calc(100vw)] sm:max-w-[360px] bg-white shadow-2xl flex flex-col overflow-hidden`}
+        } sm:bottom-40 sm:right-6 sm:w-[360px] sm:h-[480px] sm:max-h-[calc(100vh-200px)]
+          bottom-20 right-3 left-3 sm:left-auto h-[70vh] max-h-[70vh]
+          sm:max-w-[360px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden`}
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white flex items-center justify-between">
